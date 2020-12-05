@@ -10,10 +10,16 @@
 		$stmt = $conn->prepare($query);
 
 		$stmt->execute(array(":title"=>$title,"description"=>$description));
-
-		header("location:index.php");
+		
 		session_start();
+		
 		$_SESSION["saved_task"] = true;
+		$_SESSION["color"] = "success";
+		$_SESSION["message"] = "Task saved succesfully";
+		
+		header("location:index.php");
+
+
 	}
 
  ?>

@@ -7,9 +7,9 @@
 		<div class="col-md-4">
 			<?php 
 			session_start();
-			if (isset($_SESSION["saved_task"]) && $_SESSION["saved_task"] == true): ?>
-			<div class="alert alert-success alert-dismissible fade show" role="alert">
-				<p>Taks saved succesfully</p><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			if (isset($_SESSION["saved_task"]) || isset($_SESSION["deleted_task"]) || isset($_SESSION["edited_task"]) == true): ?>
+			<div class="alert alert-<?php echo $_SESSION['color']; ?> alert-dismissible fade show" role="alert">
+				<p><?php echo $_SESSION["message"]; ?></p><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			</div>
 			<?php endif;
 			session_destroy();
@@ -39,7 +39,7 @@
 				</thead>
 				<tbody>
 					<?php 
-						$query = "SELECT title, description, created  FROM task";
+						$query = "SELECT ID, title, description, created  FROM task";
 
 						$stmt = $conn->prepare($query);
 
@@ -52,7 +52,10 @@
 					 	<td><?php echo $row["title"]; ?> </td>
 					 	<td><?php echo $row["description"]; ?> </td>
 					 	<td><?php echo $row["created"]; ?> </td>
-					 	<td>	</td>
+					 	<td>
+					 		<a href="edit_task.php?ID=<?php echo $row['ID']; ?>" class="btn btn-secondary"><i class="fas fa-edit"></i></a>
+					 		<a href="delete_task.php?ID=<?php echo $row['ID']; ?>" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+					 	</td>
 					 </tr>
 					<?php endwhile; ?>
 				</tbody>
